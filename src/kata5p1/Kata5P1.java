@@ -15,13 +15,14 @@ public class Kata5P1 {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:KATA5.db");
         
         Statement statement = connection.createStatement();
-        
+
         ResultSet rs = statement.executeQuery("SELECT * FROM PEOPLE");
-        
-        while(rs.next()){
-            System.out.println("ID = " + rs.getInt("ID"));
-            System.out.println("NAME = " + rs.getString(2));
+         while(rs.next()){
+            System.out.println("ID = " + rs.getInt("ID") + "NAME = " + rs.getString(2));
         }
+         
+        statement.execute("CREATE TABLE IF NOT EXISTS MAIL ('ID' INTEGER PRIMARY KEY AUTOINCREMENT, 'Mail' TEXT NOT NULL)");
+
     }
     
 }
