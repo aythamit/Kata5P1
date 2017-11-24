@@ -10,26 +10,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Kata5P1 {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         String fileName = "emails.txt";
-        Class.forName("org.sqlite.JDBC");
+        Class.forName("oracle.jdbc.driver.OracleDriver");
         
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:KATA5.db");
+        Connection connection = 
+                DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:orcl", "system", "orcl");
         
         Statement statement = connection.createStatement();
 
-        ResultSet rs = statement.executeQuery("SELECT * FROM PEOPLE");
+        ResultSet rs = statement.executeQuery("SELECT * FROM HISTORICO_cambios");
          while(rs.next()){
-            System.out.println("ID = " + rs.getInt("ID") + "NAME = " + rs.getString(2));
+            System.out.println("De Divisa = " + rs.getString("DIVISA_DESDE") + " A DIVISA  = " + rs.getString("DIVISA_A") + 
+                    " el cambio es: " + rs.getFloat("CAMBIO") + " a la hora : "+ rs.getTime(6, Calendar.getInstance()));
         }
          
-        statement.execute("CREATE TABLE IF NOT EXISTS MAIL ('ID' INTEGER PRIMARY KEY AUTOINCREMENT, 'Mail' TEXT NOT NULL)");
+        //statement.execute("CREATE TABLE IF NOT EXISTS MAIL ('ID' INTEGER PRIMARY KEY AUTOINCREMENT, 'Mail' TEXT NOT NULL)");
         
         
-        ArrayList<Mail> mails = new ArrayList<Mail>();
+       /* ArrayList<Mail> mails = new ArrayList<Mail>();
         mails = (ArrayList<Mail>) MailListReader.read(fileName);
         
         String query;
@@ -37,7 +40,7 @@ public class Kata5P1 {
             query = "INSERT INTO MAIL (Mail) VALUES ('" + it + "');";
             statement.executeUpdate(query);
         }
-        
+        */
     }
     
 }
